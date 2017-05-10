@@ -1,0 +1,11 @@
+{% extends "../template.html" %}
+
+{% block header %}
+    <h1>{{ header }}</h1>
+{% end %}
+
+{% block content %}
+    <li>{{result.code}}</li>
+    <li>{{result.name}}</li>
+    <li>{{result.createdDate}}</li>
+{% end %}

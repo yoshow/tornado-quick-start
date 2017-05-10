@@ -1,0 +1,27 @@
+# 文件夹
+.vs
+obj
+bin
+aspnet_client
+dist
+doc
+node_modules
+releases
+log
+temp
+/src/tests
+
+/src/WebSite/v2.0.0/out.txt
+/src/WebSite/v2.0.0/registered_cat.json
+/src/WebSite/v2.0.0/report.json
+/src/WebSite/v2.0.0/time_.txt
+
+# 临时文件
+*.pyc
+*.suo
+*.user
+*.VC.db
+
+# 文件
+app.cfg.yaml
+Web.config

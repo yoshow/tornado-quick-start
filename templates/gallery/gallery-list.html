@@ -1,11 +1,16 @@
-{% extends "../template.html" %}
+{% extends "../_includes/base.html" %}
 
 {% block header %}
     <h1>{{ header }}</h1>
 {% end %}
 
 {% block content %}
-    <li>{{result.code}}</li>
-    <li>{{result.name}}</li>
-    <li>{{result.createdDate}}</li>
+<div><a href="/gallery/form">新建</a></div>
+<div>
+  <ul>
+    {% for item in list %}
+    <li><a href="detail/{{ item.id }}">{{ escape(item.name) }}</a></li>
+    {% end %}
+  </ul>
+</div>
 {% end %}

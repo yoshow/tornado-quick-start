@@ -1,12 +1,13 @@
-{% extends "../render.html" %}
+{% extends "../_includes/base.html" %}
 
 {% block header %}
-    {% extends "../includes/headers.html" %}
+  {{header}}
 {% end %}
 
 {% block content %}
-<form>
-    <div>Code <input id="code" /></div>
-    <div>Name <input id="name" /></div>
-    <button>OK</button>
+<form action="/gallery/form" method="post">
+  <div>Code <input id="code" name="code" /></div>
+  <div>Name <input id="name" name="name" /></div>
+  <button type="submit">OK</button>
+</form>
 {% end %}

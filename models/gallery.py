@@ -12,7 +12,7 @@ Base = declarative_base()
 
 class Gallery(Base):
     """ 图库信息 """
-    __tablename__ = 'tb_Account'
+    __tablename__ = 'tb_Gallery'
     id = Column(String(36), primary_key=True)
     code = Column(String(30))
     name = Column(String(50))

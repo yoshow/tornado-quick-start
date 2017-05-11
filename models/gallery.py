@@ -2,9 +2,9 @@
 """
 图库管理
 """
+import datetime
 
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
-
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -16,5 +16,6 @@ class Gallery(Base):
     id = Column(String(36), primary_key=True)
     code = Column(String(30))
     name = Column(String(50))
-    status = Column(Integer())
-    createdDate = Column(DateTime())
+    status = Column(Integer)
+    modifiedDate = Column(DateTime, default=datetime.datetime.utcnow)
+    createdDate = Column(DateTime, default=datetime.datetime.utcnow)

@@ -52,11 +52,26 @@ class FormHandler(tornado.web.RequestHandler):
         """ """
         # TODO
 
+        id = self.get_argument('id')
+        code = self.get_argument('code')
         name = self.get_argument('name')
 
-        self.write("提交成功!")
-        self.write(name)
-        self.redirect('list')
+        param = Gallery(
+            id=id,
+            code=code,
+            name=name
+        )
+
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        session.add(param)
+        session.commit()
+
+        self.write('提交成功!<br/>')
+        self.write(name + "<br />")
+        self.write('<a href="list">返回列表</a>')
+        # self.redirect('list')
 
 
 class DetailHandler(tornado.web.RequestHandler):

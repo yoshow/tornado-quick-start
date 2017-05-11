@@ -5,7 +5,10 @@
 {% end %}
 
 {% block content %}
+  <a href="/gallery/form/{{result.id}}">{{result.id}}</a>
+  <ul>
     <li>{{result.code}}</li>
     <li>{{result.name}}</li>
     <li>{{result.createdDate}}</li>
+  </ul>
 {% end %}

@@ -10,11 +10,13 @@ import tornado.options
 
 from tornado.options import define, options
 
+import x.config
+
 import controllers.apis
 import controllers.gallery
 
-define("port", default=8000, help="run on the given port", type=int)
-define("debug", default=True, help="run on the given port", type=bool)
+# 配置信息
+config = x.config.init('app.yaml')
 
 
 class Application(tornado.web.Application):
@@ -35,7 +37,7 @@ class Application(tornado.web.Application):
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             # 设置静态文件位置
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            debug=True,
+            debug=config.http_server.debug,
         )
 
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -55,5 +57,5 @@ class MainHandler(tornado.web.RequestHandler):
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.port)
+    http_server.listen(config.http_server.port)
     tornado.ioloop.IOLoop.instance().start()

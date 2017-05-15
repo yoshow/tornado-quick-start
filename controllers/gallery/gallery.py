@@ -3,67 +3,87 @@
 
 """
 
-import sys
-sys.path.append("..")
+import uuid
+import datetime
+import time
 
 from models.gallery import Gallery
 from models.membership import Account
 
-from sqlalchemy import create_engine, MetaData,\
-    Table, Column, Integer, String, ForeignKey
-
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-import datetime
-import time
 import mysql.connector
 
 import tornado.web
 
+import x.data.orm
+
 
 def getHandlers():
-    """ """
+    """ 配置路由处理规则 """
 
     handlers = [
         (r"/gallery/list", ListHandler),
         (r"/gallery/form", FormHandler),
+        (r"/gallery/form/([\w+\-]+)", FormHandler),
         (r"/gallery/detail/([\w+\-]+)", DetailHandler),
     ]
 
     return handlers
 
-engine = create_engine(
-    'mysql+mysqlconnector://test:test@localhost/CW_BigDb', echo=True)
-
 
 class FormHandler(tornado.web.RequestHandler):
-    """ """
+    """ 表单处理 """
 
-    def get(self):
-        self.render(
-            "gallery/gallery-form.html",
-            title="List | Gallery",
-            header="form",
-            footer="footer text"
-        )
-
-    def post(self):
-        """ """
-        # TODO
-
-        id = self.get_argument('id')
-        code = self.get_argument('code')
-        name = self.get_argument('name')
+    def get(self, id=''):
+        print 'id:' + id
 
         param = Gallery(
             id=id,
-            code=code,
-            name=name
-        )
+            name='',
+            code='')
 
-        Session = sessionmaker(bind=engine)
-        session = Session()
+        if id == '':
+            self.render(
+                "gallery/gallery-form.html",
+                title="Form | Gallery",
+                header="form",
+                footer="footer text",
+                param=param
+            )
+        else:
+            session = x.data.orm.createSession()
+
+            param = session.query(Gallery).filter_by(id=id).first()
+            self.render(
+                "gallery/gallery-form.html",
+                title="Form | Gallery",
+                header="form",
+                param=param
+            )
+
+    def post(self):
+        """ """
+
+        identity = self.get_argument('id')
+        code = self.get_argument('code')
+        name = self.get_argument('name')
+
+        param = None
+
+        session = x.data.orm.createSession()
+
+        if session.query(Gallery).filter(Gallery.id == identity).count() == 0:
+            param = Gallery(id=str(uuid.uuid4()))
+            # 添加到数据库
+            session.add(param)
+            # 写数据库，但并不提交
+            session.flush()
+        else:
+            param = session.query(Gallery).filter(Gallery.id == identity).one()
+
+        # 设置对象信息
+        param.code = code
+        param.name = name
+        param.modifiedDate = datetime.datetime.now()
 
         session.add(param)
         session.commit()
@@ -75,12 +95,10 @@ class FormHandler(tornado.web.RequestHandler):
 
 
 class DetailHandler(tornado.web.RequestHandler):
-    """ """
+    """ 明细处理 """
 
     def get(self, id):
-
-        Session = sessionmaker(bind=engine)
-        session = Session()
+        session = x.data.orm.createSession()
 
         # first()第一个 all()全部
         result = session.query(Gallery).filter_by(id=id).first()
@@ -97,7 +115,7 @@ class DetailHandler(tornado.web.RequestHandler):
 
 
 class ListHandler(tornado.web.RequestHandler):
-    """ """
+    """ 列表 """
 
     def get(self):
 
@@ -126,8 +144,7 @@ class ListHandler(tornado.web.RequestHandler):
         cursor.close()
         cnx.close()
 
-        Session = sessionmaker(bind=engine)
-        session = Session()
+        session = x.data.orm.createSession()
 
         # first()第一个 all()全部
         result = session.query(Gallery)

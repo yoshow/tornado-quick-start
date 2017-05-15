@@ -6,9 +6,15 @@
 
 {% block content %}
 <form action="/gallery/form" method="post">
-  <div>Id <input id="id" name="id" /></div>
-  <div>Code <input id="code" name="code" /></div>
-  <div>Name <input id="name" name="name" /></div>
-  <button type="submit">OK</button>
+  <input id="id" name="id" type="hidden" value="{{param.id}}" class="form-control" />
+  <div class="form-group">
+    <label for="code">代码</label>
+    <input id="code" name="code" type="text" value="{{param.code}}" placeholder="代码" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="name">名称</label>
+    <input id="name" name="name" type="text" value="{{param.name}}" placeholder="名称" class="form-control" />
+  </div>
+  <button type="submit" class="btn btn-default">确定</button>
 </form>
 {% end %}

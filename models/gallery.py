@@ -13,9 +13,9 @@ Base = declarative_base()
 class Gallery(Base):
     """ 图库信息 """
     __tablename__ = 'tb_Gallery'
-    id = Column(String(36), primary_key=True)
-    code = Column(String(30))
-    name = Column(String(50))
+    id = Column(String(36), default='', primary_key=True)
+    code = Column(String(30), default='')
+    name = Column(String(50), default='')
     status = Column(Integer)
-    modifiedDate = Column(DateTime, default=datetime.datetime.utcnow)
-    createdDate = Column(DateTime, default=datetime.datetime.utcnow)
+    modifiedDate = Column(DateTime, default=datetime.datetime.now)
+    createdDate = Column(DateTime, default=datetime.datetime.now)

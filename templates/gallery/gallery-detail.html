@@ -1,14 +1,17 @@
 {% extends "../_includes/base.html" %}
 
 {% block header %}
-    <h1>{{ header }}</h1>
+    {{ header }}
 {% end %}
 
 {% block content %}
-  <a href="/gallery/form/{{result.id}}">{{result.id}}</a>
+  <a href="/gallery/list">列表</a>
+  <a href="/gallery/form/{{result.id}}">编辑</a>
   <ul>
-    <li>{{result.code}}</li>
-    <li>{{result.name}}</li>
-    <li>{{result.createdDate}}</li>
+    <li>id {{result.id}}</li>
+    <li>code {{result.code}}</li>
+    <li>name {{result.name}}</li>
+    <li>modifiedDate {{result.modifiedDate}}</li>
+    <li>createdDate {{result.createdDate}}</li>
   </ul>
 {% end %}

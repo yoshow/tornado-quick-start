@@ -7,10 +7,12 @@
 {% block content %}
 <div><a href="/gallery/form">新建</a></div>
 <div>
-  <ul>
+  <table class="table">
     {% for item in list %}
-    <li><a href="detail/{{ item.id }}">{{ escape(item.name) }}</a></li>
+    <tr>
+      <td><a href="detail/{{ item.id }}">{{ escape(item.name) }}</a></td>
+    </tr>
     {% end %}
-  </ul>
+  </table>
 </div>
 {% end %}

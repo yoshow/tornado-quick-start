@@ -13,7 +13,8 @@ from tornado.options import define, options
 import x.config
 
 import controllers.apis
-import controllers.gallery
+import controllers.account.account
+import controllers.gallery.gallery
 
 # 配置信息
 config = x.config.init('app.yaml')
@@ -23,13 +24,16 @@ class Application(tornado.web.Application):
     """ 初始化应用 """
 
     def __init__(self):
-        #
+        # 配置默认路由
         handlers = [
             (r"/", MainHandler),
             (r"/api/([\w+\-]+)", controllers.apis.ApiHandler)
         ]
 
-        handlers.extend(controllers.gallery.getHandlers())
+        # 配置路由 /gallery/
+        handlers.extend(controllers.account.account.getHandlers())
+        # 配置路由 /gallery/
+        handlers.extend(controllers.gallery.gallery.getHandlers())
 
         # 设置参数
         settings = dict(

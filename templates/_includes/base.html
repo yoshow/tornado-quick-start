@@ -2,7 +2,8 @@
 
 <head>
     <!-- 静态文件引用 -->
-    <link rel="stylesheet" href="{{ static_url('style.css') }}">
+    <link rel="stylesheet" href="{{ static_url('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ static_url('styles/style.css') }}">
     <title>{{title}}</title>
 </head>
 
@@ -13,7 +14,7 @@
     <content>
         {% block content %}{% end %}
     </content>
-    
+
     <footer>
         {% block footer %}{% end %}
     </footer>

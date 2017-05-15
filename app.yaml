@@ -6,9 +6,11 @@ http_server:
   debug: true
 # 数据库
 database:
+  # 数据库的提供器
+  provider: mysql
   # 数据库的服务器地址
   datasource: localhost
-  #
+  # 数据库的名称
   database: CW_BigDb
   # 数据库的登录帐号
   loginName: test

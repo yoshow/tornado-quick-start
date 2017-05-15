@@ -1,5 +1,11 @@
 基于 Tornado 的示例程序
 
+安装第三方库命令
+
+```
+pip install pyyaml sqlalchemy mysql-connector
+```
+
 启动程序命令
 
 ```

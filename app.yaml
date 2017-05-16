@@ -16,3 +16,12 @@ database:
   loginName: test
   # 数据库的密码
   password: test
+# Web 配置
+web:
+  # API
+  apis:
+    # API 接口 具体实现目录
+    path: ./apis
+    class_suffix: ''
+    upper_case_names:
+      oauth2: OAuth2

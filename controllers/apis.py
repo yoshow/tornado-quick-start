@@ -16,6 +16,11 @@ class ApiHandler(tornado.web.RequestHandler):
         # 设置参数
         args = {}
         keys = self.request.arguments.keys()
+
+        if len(keys) == 0:
+            self.write('request arguments is empty.')
+            return
+
         for name in keys:
             args[name] = self.get_argument(name)
 

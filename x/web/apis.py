@@ -5,13 +5,17 @@ Web API 管理
 
 import logging
 
-import x.config
+# import x.config
 
 
 def invoke(methodName, args):
     """ 执行动态方法 """
     methodName = methodName.replace('/', '.')
     keys = methodName.split('.')
+
+    if len(keys) < 2:
+        raise Exception("method name error.")
+
     # 映射对应的方法名和类名
     methodName = keys.pop()
     modulePath = '.'.join(keys)
@@ -23,7 +27,7 @@ def invoke(methodName, args):
         modulePath = '.'.join([modulePath, modulePath])
 
     # 记录参数信息
-    logging.info('moduleName:' + moduleName + 'className:' +
+    logging.info('moduleName:' + moduleName + ' className:' +
                  className + ' methodName:' + methodName)
 
     # 导入模块
@@ -37,3 +41,12 @@ def invoke(methodName, args):
     method = getattr(target, methodName)
     # 执行方法
     return method(args)
+
+
+def verify(token, level):
+    """
+    验证安全性
+    token 访问令牌
+    level 验证的级别
+    """
+    return 0

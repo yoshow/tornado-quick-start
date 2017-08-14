@@ -4,11 +4,11 @@ Web API 管理
 """
 
 import logging
+import json
+import datetime
 
-# import x.config
 
-
-def invoke(methodName, args):
+def invoke(methodName, req):
     """ 执行动态方法 """
     methodName = methodName.replace('/', '.')
     keys = methodName.split('.')
@@ -39,8 +39,11 @@ def invoke(methodName, args):
     target = Object()
     # 获取方法信息
     method = getattr(target, methodName)
+
+    res = createResponse()
+
     # 执行方法
-    return method(args)
+    return method(req, res)
 
 
 def verify(token, level):
@@ -50,3 +53,81 @@ def verify(token, level):
     level 验证的级别
     """
     return 0
+
+
+def createResponse():
+    """
+    创建响应信息
+    """
+    response = WebApiResponse()
+
+    return response
+
+
+class WebApiResponse:
+    """
+    Web API 响应信息
+    """
+
+    def __init__(self):
+        self.data = ''
+        # value 返回的值
+        # message = null
+        self.message = WebApiMessage()
+        # pass
+
+    def json(self):
+        """
+        转为 JSON 字符串
+        """
+        _data = self.data
+        if isinstance(self.data, list):
+            _data = object_to_dict(_data)
+        elif isinstance(self.data, object):
+            _data = object_to_dict(_data)
+        else:
+            pass
+
+        result = {
+            "data": _data,
+            "message": object_to_dict(self.message)
+        }
+
+        return json.dumps(result)
+
+
+class WebApiMessage:
+    """
+    Web API 响应信息
+    """
+    returnCode = "0"
+    # 返回的值
+    value = ""
+
+
+def object_to_dict(obj):
+    """
+    summary:
+        将object转换成dict类型
+    """
+    _dict = {}
+
+    members = [m for m in dir(obj)]
+
+    for m in members:
+        if m[0] != "_" and not callable(m):
+            value = getattr(obj, m)
+
+            # 字符串类型
+            if isinstance(value, str):
+                _dict[m] = value
+            # 数字类型
+            elif isinstance(value, int) or isinstance(value, float):
+                _dict[m] = value
+            # datetime 类型转为字符串类型
+            elif isinstance(value, datetime.datetime):
+                _dict[m] = value.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                pass
+
+    return _dict

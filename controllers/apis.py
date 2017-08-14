@@ -14,7 +14,7 @@ class ApiHandler(tornado.web.RequestHandler):
     def get(self, menthodName):
         """ API """
         # 设置参数
-        args = {}
+        req = {}
         keys = self.request.arguments.keys()
 
         if len(keys) == 0:
@@ -22,28 +22,31 @@ class ApiHandler(tornado.web.RequestHandler):
             return
 
         for name in keys:
-            args[name] = self.get_argument(name)
+            req[name] = self.get_argument(name)
 
-        output = x.web.apis.invoke(menthodName, args)
+        output = x.web.apis.invoke(menthodName, req)
         self.write(output)
 
     def post(self, menthodName):
         """ POST """
         # 设置参数
-        args = {}
+        req = {}
 
         # 处理 JSON 格式请求
         if self.request.headers['Content-Type'] == 'application/json':
-            args = json.loads(self.request.body)
+            req = json.loads(self.request.body)
         else:
             keys = self.request.arguments.keys()
             for name in keys:
-                args[name] = self.get_argument(name)
+                req[name] = self.get_argument(name)
 
-        output = x.web.apis.invoke(menthodName, args)
-        self.write(output)
-
-if __name__ == '__main__':
+        res = x.web.apis.invoke(menthodName, req)
+        if isinstance(res, str):
+            self.write(res)
+        if isinstance(res, str):
+            self.write(res.json())
+        else:
+            self.write(res)
     # auth
     # http://localhost:8000/api/connect/auth/authorize
 

@@ -10,7 +10,7 @@ class ApplicationOption(object):
     def __init__(self):
         pass
 
-    def query(self):
+    def query(self, args):
         """ 分页查询信息 """
         print "query"
         return 'application.query()'
@@ -23,12 +23,12 @@ class ApplicationOption(object):
 
         return 'application.findOne("' + args["id"] + '")'
 
-    def create(self):
+    def create(self, args):
         """ 获取令牌信息 """
         print "token"
         return 'query.create'
 
-    def delete(self):
+    def delete(self, args):
         """ 获取令牌信息 """
         print "token"
         return 'connect.auth.token'

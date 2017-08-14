@@ -11,10 +11,24 @@ Base = declarative_base()
 
 
 class Account(Base):
+    """ 帐号信息 """
+
     __tablename__ = 'tb_Account'
     id = Column(String(36), primary_key=True)
     code = Column(String(30))
     name = Column(String(50))
     loginName = Column(String(50))
+    password = Column(String(50))
+    status = Column(Integer())
+    createdDate = Column(DateTime())
+
+
+class Role(Base):
+    """ 角色信息 """
+
+    __tablename__ = 'tb_Role'
+    id = Column(String(36), primary_key=True)
+    code = Column(String(30))
+    name = Column(String(50))
     status = Column(Integer())
     createdDate = Column(DateTime())

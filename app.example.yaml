@@ -11,7 +11,7 @@ database:
   # 数据库的服务器地址
   datasource: localhost
   # 数据库的名称
-  database: CW_BigDb
+  database: X3_Development
   # 数据库的登录帐号
   loginName: test
   # 数据库的密码

@@ -13,6 +13,7 @@ class ApiHandler(tornado.web.RequestHandler):
 
     def get(self, menthodName):
         """ API """
+
         # 设置参数
         req = {}
         keys = self.request.arguments.keys()

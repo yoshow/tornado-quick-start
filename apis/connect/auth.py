@@ -18,7 +18,7 @@ from models.connect import ConnectAuthorizationCode, ConnectAccessToken
 class Auth(object):
     """ 验证管理 """
 
-    def authorize(self, req, res=WebApiResponse):
+    def authorize(self, req, res=WebApiResponse()):
         """
         授权验证
         :param clientId: 客户端应用
@@ -48,7 +48,7 @@ class Auth(object):
 
         if account is None:
             if responseType is None:
-                res.message.returnCode = 0
+                res.message.returnCode = 1
                 res.message.value = u"帐号或者密码错误。"
                 return res
             else:
@@ -112,7 +112,7 @@ class Auth(object):
 
         return res
 
-    def token(self,  req, res=WebApiResponse):
+    def token(self,  req, res=WebApiResponse()):
         """
         获取令牌信息
         :param code: 授权码信息
@@ -142,12 +142,12 @@ class Auth(object):
 
         return res
 
-    def refresh(self, req, res=WebApiResponse):
+    def refresh(self, req, res=WebApiResponse()):
         """ 刷新令牌信息 """
         print "token"
         return "connect.auth.refresh"
 
-    def me(self, req, res=WebApiResponse):
+    def me(self, req, res=WebApiResponse()):
         """ 当前用户信息 """
         token = req.get("token")
 

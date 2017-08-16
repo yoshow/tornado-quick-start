@@ -6,7 +6,7 @@
 pip install pyyaml sqlalchemy mysql-connector
 ```
 
-配置
+设置配置文件
 
 ```
 cp app.example.yaml cp app.yaml

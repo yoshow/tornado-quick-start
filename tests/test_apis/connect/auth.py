@@ -22,7 +22,7 @@ class TestAuth(unittest.TestCase):
         self.target = None
 
     def test_authorize(self):
-        """ Connect 应用 Autho 接口 """
+        """ 测试授权验证接口 """
 
         # 正常的请求
         req = {
@@ -80,8 +80,8 @@ class TestAuth(unittest.TestCase):
         res = self.target.me(req)
 
         assert res is not None
-        assert res.message.returnCode is not None
-        assert res.data is not None
+        assert res.message.returnCode == 1
+        assert res.data == ''
 
 if __name__ == '__main__':
     unittest.main()

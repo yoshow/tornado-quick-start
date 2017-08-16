@@ -6,16 +6,19 @@ OAuth 2.0
 import uuid
 import json
 
-import x.data.orm
+from sqlalchemy import select, text
 
-from models.membership import Account
+import x.data.orm
+from x.web.apis import WebApiResponse
+
+from models.membership import Account, Member
 from models.connect import ConnectAuthorizationCode, ConnectAccessToken
 
 
 class Auth(object):
     """ 验证管理 """
 
-    def authorize(self, req, res):
+    def authorize(self, req, res=WebApiResponse):
         """
         授权验证
         :param clientId: 客户端应用
@@ -28,20 +31,20 @@ class Auth(object):
         :returns: this is a description of what is returned
         :raises keyError: raises an exception
         """
-        clientId = req["clientId"]
-        redirectUri = req["redirectUri"]
-        responseType = req["responseType"]
-        scope = req["scope"]
-        style = req["style"]
-        loginName = req["loginName"]
-        password = req["password"]
+        clientId = req.get("clientId")
+        redirectUri = req.get("redirectUri")
+        responseType = req.get("responseType")
+        scope = req.get("scope")
+        style = req.get("style")
+        loginName = req.get("loginName")
+        password = req.get("password")
 
         session = x.data.orm.createSession()
 
         # 获取当前用户信息
 
         account = session.query(Account).filter(
-            "loginName='" + loginName + "' and password='" + password + "'").first()
+            text("loginName='" + loginName + "' and password='" + password + "'")).first()
 
         if account is None:
             if responseType is None:
@@ -56,7 +59,7 @@ class Auth(object):
             # 检验是否有授权码
             # cliendId account
             authorizationCode = session.query(ConnectAuthorizationCode).filter(
-                "appKey='" + clientId + "' and accountId='" + account.id + "'").one()
+                text("appKey='" + clientId + "' and accountId='" + account.id + "'")).first()
 
             # 如果不存在则新增授权码信息
             if authorizationCode is None:
@@ -77,7 +80,7 @@ class Auth(object):
 
             # 设置会话信息
             accessToken = session.query(ConnectAccessToken).filter(
-                "appKey='" + clientId + "' and accountId='" + account.id + "'").one()
+                text("appKey='" + clientId + "' and accountId='" + account.id + "'")).first()
 
             # 如果不存在则新增授权码信息
             if accessToken is None:
@@ -109,14 +112,14 @@ class Auth(object):
 
         return res
 
-    def token(self,  req, res):
+    def token(self,  req, res=WebApiResponse):
         """
         获取令牌信息
         :param code: 授权码信息
         :returns: this is a description of what is returned
         :raises keyError: raises an exception
         """
-        code = req["code"]
+        code = req.get("code")
 
         session = x.data.orm.createSession()
 
@@ -130,21 +133,61 @@ class Auth(object):
             return res
 
         accessToken = session.query(ConnectAccessToken).filter(
-            "appKey='" + authorizationCode.AppKey + "' and accountId='" + authorizationCode.AccountId + "'").one()
+            text("appKey='" + authorizationCode.appKey + "' and accountId='" + authorizationCode.accountId + "'")).first()
 
         if accessToken is None:
             res.message.returnCode = 1
-            res.message.value = "authorization code not find"
+            res.message.value = "access code not find"
             return res
 
-        return "connect.auth.token"
+        return res
 
-    def refresh(self, args):
+    def refresh(self, req, res=WebApiResponse):
         """ 刷新令牌信息 """
         print "token"
         return "connect.auth.refresh"
 
-    def me(self, args):
+    def me(self, req, res=WebApiResponse):
         """ 当前用户信息 """
-        print "token"
-        return "connect.auth.refresh"
+        token = req.get("token")
+
+        session = x.data.orm.createSession()
+
+        accessToken = session.query(
+            ConnectAccessToken).filter_by(id=token).first()
+
+        if accessToken is None:
+
+            res.message.returnCode = 1
+            res.message.value = "people not find"
+            return res
+        else:
+            # 根据访问令牌返回当前湖用户
+            # IMemberInfo member =
+            # MembershipManagement.Instance.MemberService[accessTokenInfo.AccountId]
+            member = session.query(Member).filter_by(
+                id=accessToken.accountId).first()
+
+            if member is None:
+
+                res.message.returnCode = 1
+                res.message.value = "people not find"
+                return res
+
+            # 输出个人信息
+            res.data = member
+
+            res.message.returnCode = 0
+            res.message.value = "success"
+
+            return res
+
+    def ToPeopleJson(self, account):
+        """ 将人员信息格式化为特定格式 """
+        return {
+            "id": account.id,
+            "name": account.name,
+            "loginName": account.loginName,
+            # "certifiedAvatar": account.certifiedAvatar,
+            "status": account.status
+        }

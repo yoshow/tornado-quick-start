@@ -7,7 +7,6 @@ import logging
 import json
 import datetime
 
-
 def invoke(methodName, req):
     """ 执行动态方法 """
     methodName = methodName.replace('/', '.')

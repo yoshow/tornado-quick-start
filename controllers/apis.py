@@ -50,7 +50,6 @@ class ApiHandler(tornado.web.RequestHandler):
     # auth
     # http://localhost:8000/api/connect/auth/authorize
 
-    x.web.apis.invoke('connect/auth/authorize')
-    x.web.apis.invoke('api_test.mod1')
-
-    x.web.apis.invoke('auth.mod1')
+    # x.web.apis.invoke('connect/auth/authorize')
+    # x.web.apis.invoke('api_test.mod1')
+    # x.web.apis.invoke('auth.mod1')

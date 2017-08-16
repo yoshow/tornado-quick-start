@@ -16,6 +16,8 @@ database:
   loginName: test
   # 数据库的密码
   password: test
+  # 调试模式
+  debug: false
 # Web 配置
 web:
   # API

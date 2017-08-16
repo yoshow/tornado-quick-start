@@ -13,5 +13,5 @@ temp
 *.VC.db
 
 # 文件
-app.cfg.yaml
-Web.config
+app.yaml
+web.config

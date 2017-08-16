@@ -23,6 +23,16 @@ class Account(Base):
     createdDate = Column(DateTime())
 
 
+class Member(Base):
+    """ 成员信息 """
+
+    __tablename__ = 'tb_Member'
+    id = Column(String(36), primary_key=True)
+    accountId = Column(String(36))
+
+    createdDate = Column(DateTime())
+
+
 class Role(Base):
     """ 角色信息 """
 

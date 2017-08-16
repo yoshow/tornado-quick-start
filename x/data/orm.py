@@ -22,7 +22,7 @@ def createEngine():
         config.database.loginName + ':' + config.database.password + \
         '@' + config.database.datasource + '/' + config.database.database
 
-    engine = create_engine(connectionString, echo=True)
+    engine = create_engine(connectionString, echo=config.database.debug)
     return engine
 
 

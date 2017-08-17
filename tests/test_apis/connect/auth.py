@@ -10,7 +10,7 @@ import apis.connect.auth
 
 
 class TestAuth(unittest.TestCase):
-    """ Connect 应用 Autho 接口 """
+    """ Connect 应用 Auth 接口 """
 
     def setUp(self):
         # 初始化工作

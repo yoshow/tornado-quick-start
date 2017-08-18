@@ -17,5 +17,5 @@ install:
   - "pip install pyyaml sqlalchemy"
 # command to run tests
 script: 
-  - $(shell export PYTHONPATH=$PYTHONPATH:$(pwd))
+  - cp app.example.yaml app.yaml
   - python tests/test_all.py

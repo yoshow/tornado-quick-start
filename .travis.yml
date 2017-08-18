@@ -2,13 +2,17 @@ language: python
 python:
   - "2.6"
   - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "nightly" # currently points to 3.7-dev
+#  - "3.2"
+#  - "3.3"
+#  - "3.4"
+#  - "3.5"
+#  - "3.6"
+#  - "nightly" # currently points to 3.7-dev
+
 # command to install dependencies
-install: "pip install pyyaml sqlalchemy mysql-connector"
+install: 
+  - "echo https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.3.tar.gz >> requirements.txt"
+  - "pip install -r ./requirements.txt"
+  - "pip install pyyaml sqlalchemy"
 # command to run tests
 script: python tests/test_all.py

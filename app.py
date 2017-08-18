@@ -72,6 +72,7 @@ if __name__ == "__main__":
     http_server.listen(config.http_server.port)
     # 启动时记录日志
     logging.info("Application Start")
+    print "http://localhost:" + str(config.http_server.port)
     tornado.ioloop.IOLoop.instance().start()
     # 关闭时记录日志
     logging.info("Application Stop")

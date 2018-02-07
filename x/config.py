@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-test cfg
+cfg
 """
 import json
 import yaml
@@ -26,7 +26,7 @@ class Configuration(object):
         if name == '_map':
             object.__setattr__(self, name, value)
             return
-        print 'set attr called ', name, value
+        print('set attr called ', name, value)
         self._map[name] = value
 
     def __getattr__(self, name):

@@ -10,7 +10,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class Connect(Base):
+class ConnectInfo(Base):
     """ 连接器信息 """
 
     __tablename__ = 'tb_Connect'
@@ -26,7 +26,7 @@ class Connect(Base):
     createdDate = Column(DateTime())
 
 
-class ConnectAuthorizationCode(Base):
+class ConnectAuthorizationCodeInfo(Base):
     """ 连接器的授权代码信息 """
 
     __tablename__ = 'tb_Connect_AuthorizationCode'
@@ -38,7 +38,7 @@ class ConnectAuthorizationCode(Base):
     createdDate = Column(DateTime())
 
 
-class ConnectAccessToken(Base):
+class ConnectAccessTokenInfo(Base):
     """ 连接器的访问令牌信息 """
 
     __tablename__ = 'tb_Connect_AccessToken'

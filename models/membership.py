@@ -10,7 +10,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class Account(Base):
+class AccountInfo(Base):
     """ 帐号信息 """
 
     __tablename__ = 'tb_Account'
@@ -23,7 +23,7 @@ class Account(Base):
     createdDate = Column(DateTime())
 
 
-class Member(Base):
+class MemberInfo(Base):
     """ 成员信息 """
 
     __tablename__ = 'tb_Member'
@@ -33,7 +33,7 @@ class Member(Base):
     createdDate = Column(DateTime())
 
 
-class Role(Base):
+class RoleInfo(Base):
     """ 角色信息 """
 
     __tablename__ = 'tb_Role'

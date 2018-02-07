@@ -11,8 +11,8 @@ from sqlalchemy import select, text
 import x.data.orm
 from x.web.apis import WebApiResponse
 
-from models.membership import Account, Member
-from models.connect import ConnectAuthorizationCode, ConnectAccessToken
+from models.membership import AccountInfo, MemberInfo
+from models.connect import ConnectAuthorizationCodeInfo, ConnectAccessTokenInfo
 
 
 class Auth(object):
@@ -43,7 +43,7 @@ class Auth(object):
 
         # 获取当前用户信息
 
-        account = session.query(Account).filter(
+        account = session.query(AccountInfo).filter(
             text("loginName='" + loginName + "' and password='" + password + "'")).first()
 
         if account is None:
@@ -58,13 +58,13 @@ class Auth(object):
         else:
             # 检验是否有授权码
             # cliendId account
-            authorizationCode = session.query(ConnectAuthorizationCode).filter(
+            authorizationCode = session.query(ConnectAuthorizationCodeInfo).filter(
                 text("appKey='" + clientId + "' and accountId='" + account.id + "'")).first()
 
             # 如果不存在则新增授权码信息
             if authorizationCode is None:
                 # 设置对象信息
-                authorizationCode = ConnectAuthorizationCode()
+                authorizationCode = ConnectAuthorizationCodeInfo()
 
                 authorizationCode.id = str(uuid.uuid4())
                 authorizationCode.appKey = clientId
@@ -79,13 +79,13 @@ class Auth(object):
             # 设置访问令牌
 
             # 设置会话信息
-            accessToken = session.query(ConnectAccessToken).filter(
+            accessToken = session.query(ConnectAccessTokenInfo).filter(
                 text("appKey='" + clientId + "' and accountId='" + account.id + "'")).first()
 
             # 如果不存在则新增授权码信息
             if accessToken is None:
 
-                accessToken = ConnectAccessToken(id=str(uuid.uuid4()))
+                accessToken = ConnectAccessTokenInfo(id=str(uuid.uuid4()))
 
                 # 设置对象信息
                 accessToken.id = str(uuid.uuid4())
@@ -123,7 +123,7 @@ class Auth(object):
 
         session = x.data.orm.createSession()
 
-        authorizationCode = session.query(ConnectAuthorizationCode).filter_by(
+        authorizationCode = session.query(ConnectAuthorizationCodeInfo).filter_by(
             id=code).first()
 
         # 如果不存在则新增授权码信息
@@ -132,7 +132,7 @@ class Auth(object):
             res.message.value = "authorization code not find"
             return res
 
-        accessToken = session.query(ConnectAccessToken).filter(
+        accessToken = session.query(ConnectAccessTokenInfo).filter(
             text("appKey='" + authorizationCode.appKey + "' and accountId='" + authorizationCode.accountId + "'")).first()
 
         if accessToken is None:
@@ -154,7 +154,7 @@ class Auth(object):
         session = x.data.orm.createSession()
 
         accessToken = session.query(
-            ConnectAccessToken).filter_by(id=token).first()
+            ConnectAccessTokenInfo).filter_by(id=token).first()
 
         if accessToken is None:
 
@@ -165,7 +165,7 @@ class Auth(object):
             # 根据访问令牌返回当前湖用户
             # IMemberInfo member =
             # MembershipManagement.Instance.MemberService[accessTokenInfo.AccountId]
-            member = session.query(Member).filter_by(
+            member = session.query(MemberInfo).filter_by(
                 id=accessToken.accountId).first()
 
             if member is None:

@@ -66,13 +66,14 @@ class MainHandler(tornado.web.RequestHandler):
             header_text="Welcome",
             footer_text="")
 
+
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(config.http_server.port)
     # 启动时记录日志
     logging.info("Application Start")
-    print "http://localhost:" + str(config.http_server.port)
+    print("http://localhost:" + str(config.http_server.port))
     tornado.ioloop.IOLoop.instance().start()
     # 关闭时记录日志
     logging.info("Application Stop")

@@ -9,7 +9,7 @@ cp app.example.yaml cp app.yaml
 安装第三方库命令
 
 ```
-pip install pyyaml sqlalchemy mysql-connector
+pip install -r requirements.txt
 ```
 
 启动程序命令
@@ -22,6 +22,7 @@ python app.py
 
 执行测试命令
 
+```
 python tests/test_all.py
-
+```
 coverage run tests/test.py

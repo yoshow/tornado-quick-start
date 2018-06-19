@@ -1,4 +1,4 @@
 tornado
 pyyaml
 sqlalchemy
-mysql-connector
+mysql-connector==2.1.6
